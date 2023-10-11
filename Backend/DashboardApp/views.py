@@ -9,3 +9,5 @@ class EnergyDataViewSet(viewsets.ModelViewSet):
     queryset=EnergyData.objects.all() #retrieve all objects for the database table
     serializer_class=EnergyDataSerializer
 
+class IntensityDataViewSet(viewsets):
+    pass
