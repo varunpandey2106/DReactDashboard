@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     'User',
     'DashboardApp'
+    'rest_framework'
 
     
 ]
