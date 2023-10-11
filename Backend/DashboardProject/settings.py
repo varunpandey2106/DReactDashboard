@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-2&ad2d&@cv3m6p@hb_a=18g=yirqipo3k7=ux9ur5&%i6f$*os
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,6 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #installed apps:
+
+    'User',
+    'DashboardApp'
+
+    
 ]
 
 MIDDLEWARE = [
@@ -73,12 +80,46 @@ WSGI_APPLICATION = 'DashboardProject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+##RAILWAY POSTGRES
+
 DATABASES = {
+
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+
+        'ENGINE': 'django.db.backends.postgresql',
+
+        'NAME': 'railway',
+
+        'USER': 'postgres',
+
+        'PASSWORD': 'PUQEqPL9RfyTrXWWUqB1',
+
+        'HOST': 'containers-us-west-117.railway.app',
+
+        'PORT': '7533',
+
     }
+
 }
+
+# ##POSTGRES
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'yourdbname',  # Use the same name as the PostgreSQL database you created
+#         'USER': 'yourdbuser',  # Replace with your PostgreSQL username
+#         'PASSWORD': 'yourdbpassword',  # Replace with your PostgreSQL password
+#         'HOST': 'localhost',  # Set the host to your PostgreSQL server location
+#         'PORT': '',  # Leave empty to use the default PostgreSQL port (5432)
+#     }
+# }
 
 
 # Password validation
@@ -109,7 +150,7 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False #datetime objects are no longer timezone aware
 
 
 # Static files (CSS, JavaScript, Images)
