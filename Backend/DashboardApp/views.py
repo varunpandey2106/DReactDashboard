@@ -18,14 +18,14 @@ class IntensityDataViewSet(viewsets.ModelViewSet): #intensity paired with sector
     filterset_class=IntensitySectorFilter
     ordering_fields=['intensity', 'sector']
 
+class LikelihoodYearDataViewSet(viewsets.ModelViewSet): # Likelihood paired with Year, y and x axes, empty entries ignored, Line graph
+    queryset = EnergyData.objects.exclude(likelihood="").exclude(year="")
+    serializer_class = LikelihoodYearSerializer
+    filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
+    filterset_class = LikelihoodYearFilter
+    ordering_fields = ['likelihood', 'year']
 
-class LikelihoodYearViewSet(viewsets.ModelViewSet): #Likelihood paired with year, y and x axes, empty entries ignored, Line graph
-    queryset= EnergyData.objects.exclude(likelihood="").exclude(year="")
-    serializer_class= LikelihoodYearSerializer
-    filter_backends=(DjangoFilterBackend, filters.OrderingFilter)
-    filterset_class= IntensitySectorFilter
-    ordering_fields=['likelihood', 'year']
-    
+class RelevanceSourceDataViewSet(viewsets.ModelViewSet): # relevance paired with Source, y and x axes, empty entries ignored, bar graph 
 
 
 
