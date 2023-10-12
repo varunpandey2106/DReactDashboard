@@ -42,7 +42,8 @@ INSTALLED_APPS = [
 
     'User',
     'DashboardApp',
-    'rest_framework'
+    'rest_framework',
+    'django_filters'
 
     
 ]
