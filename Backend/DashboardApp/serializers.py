@@ -58,3 +58,17 @@ class TopicRegionSerializer(serializers.ModelSerializer):
     class Meta:
         model =EnergyData
         fields=['topic', 'region']
+
+class RegionIntensitySerilizer(serializers.ModelSerializer):
+    intensity= serializers.IntegerField()
+
+    class Meta:
+        model= EnergyData
+        fields=['region', 'intensity']
+
+class CityLikelihoodSerializer(serializers.ModelSerializer):
+    likelihood= serializers.IntegerField()
+
+    class Meta:
+        model=EnergyData
+        fields=['city', 'likelihood']

@@ -48,3 +48,11 @@ class TopicRegionFilter(django_filters.FilterSet):
             'topic': ['exact', 'iexact', 'icontains'],
             'region': ['exact', 'iexact', 'icontains'],
         }
+
+class RegionIntensityFilter(django_filters.FilterSet):
+    class Meta:
+        model = EnergyData
+        fields = {
+            'region': ['exact', 'iexact', 'icontains'],
+            'intensity': ['exact', 'lt', 'lte', 'gt', 'gte'],
+        }
