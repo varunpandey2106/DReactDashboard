@@ -21,5 +21,21 @@ class EnergyData(models.Model):
     source= models.CharField(max_length=200)
     title= models.TextField()
     likelihood= models.CharField(max_length=1000, blank= True)
+    year = models.CharField(max_length=200, blank=True)  # New field for the computed year
 
+    def calculate_year(self):
+        # Calculate the year based on start_year and end_year
+        if self.start_year and self.end_year:
+            return f"{self.start_year}-{self.end_year}"
+        elif self.end_year:
+            return self.end_year
+        elif self.start_year:
+            return self.start_year
+        else:
+            return "Year not specified"
+
+    def save(self, *args, **kwargs):
+        # Update the 'year' field before saving
+        self.year = self.calculate_year()
+        super(EnergyData, self).save(*args, **kwargs)
 

@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import EnergyData
+from django.db.models import Q
 
 class EnergyDataSerializer(serializers.ModelSerializer):
     intensity= serializers.IntegerField(default=0)
@@ -19,9 +20,9 @@ class LikelihoodYearSerializer(serializers.ModelSerializer):
     year= serializers.SerializerMethodField()
 
     class Meta:
-        fields=['likelihood', 'year']
+        fields='__all__'
 
-        def get_year(self, obj):
+    def get_year(self, obj):
             start_year= obj.start_year
             end_year= obj.end_year
 
