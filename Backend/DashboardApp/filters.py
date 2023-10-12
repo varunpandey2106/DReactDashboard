@@ -25,3 +25,18 @@ class RelevanceFilter(django_filters.FilterSet):
         fields = {
             'relevance': ['exact', 'iexact', 'icontains', 'gt', 'lt', 'gte', 'lte'],
         }
+
+class YearTopicFilter(django_filters.FilterSet):
+    topic = django_filters.CharFilter(lookup_expr='icontains')  # You can adjust the lookup expression as needed
+
+    class Meta:
+        model = EnergyData
+        fields = ['topic']
+
+class CountryIntensityFilter(django_filters.FilterSet):
+    country = django_filters.CharFilter(lookup_expr='icontains')  # You can adjust the lookup expression
+    intensity = django_filters.NumberFilter()
+
+    class Meta:
+        model = EnergyData  # Replace with your actual model
+        fields = ['country', 'intensity']

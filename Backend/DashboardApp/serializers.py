@@ -33,3 +33,22 @@ class RelevanceSourceSerializer(serializers.ModelSerializer):
     class Meta:
         model=EnergyData
         fields=['relevance', 'source']
+
+class YearTopicSerializer(serializers.ModelSerializer):
+    year= serializers.CharField()
+
+    class Meta:
+        model=EnergyData
+        fields=['topic', 'year']
+    def get_year(self, obj):
+        if obj.year == "Year not specified" or not obj.year:
+            return None  # Return None for empty or "Year not specified" years
+        return obj.year
+    
+class CountryIntensitySerializer(serializers.ModelSerializer):
+    intensity= serializers.IntegerField()
+    class Meta:
+        model=EnergyData
+        fields=['country', 'intensity']
+
+

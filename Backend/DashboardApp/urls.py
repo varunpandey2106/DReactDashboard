@@ -9,6 +9,9 @@ router.register(r'energy-data', views.EnergyDataViewSet)
 router.register(r'intensity', views.IntensityDataViewSet)
 router.register(r'likelihood', views.LikelihoodYearDataViewSet)
 router.register(r'relevance', views.RelevanceSourceDataViewSet)
+router.register(r'year', views.YearRelevanceDataViewSet)
+router.register(r'country', views.CountryIntensityDataView)
+ 
 
 
 urlpatterns = [
