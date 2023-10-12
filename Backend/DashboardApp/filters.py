@@ -19,3 +19,9 @@ class LikelihoodYearFilter(django_filters.FilterSet):
             'year': ['exact', 'lt', 'lte', 'gt', 'gte'],
         }
 
+class RelevanceFilter(django_filters.FilterSet):
+    class Meta:
+        model = EnergyData
+        fields = {
+            'relevance': ['exact', 'iexact', 'icontains', 'gt', 'lt', 'gte', 'lte'],
+        }

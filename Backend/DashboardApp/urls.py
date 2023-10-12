@@ -8,6 +8,7 @@ router.register(r'energy-data', views.EnergyDataViewSet)
 #variables
 router.register(r'intensity', views.IntensityDataViewSet)
 router.register(r'likelihood', views.LikelihoodYearDataViewSet)
+router.register(r'relevance', views.RelevanceSourceDataViewSet)
 
 
 urlpatterns = [
