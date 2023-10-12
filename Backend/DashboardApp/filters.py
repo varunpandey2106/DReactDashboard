@@ -40,3 +40,11 @@ class CountryIntensityFilter(django_filters.FilterSet):
     class Meta:
         model = EnergyData  # Replace with your actual model
         fields = ['country', 'intensity']
+
+class TopicRegionFilter(django_filters.FilterSet):
+    class Meta:
+        model = EnergyData
+        fields = {
+            'topic': ['exact', 'iexact', 'icontains'],
+            'region': ['exact', 'iexact', 'icontains'],
+        }

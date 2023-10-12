@@ -11,7 +11,8 @@ router.register(r'likelihood', views.LikelihoodYearDataViewSet)
 router.register(r'relevance', views.RelevanceSourceDataViewSet)
 router.register(r'year', views.YearRelevanceDataViewSet)
 router.register(r'country', views.CountryIntensityDataView)
- 
+router.register(r'topic', views.TopicRegionDataView)
+
 
 
 urlpatterns = [

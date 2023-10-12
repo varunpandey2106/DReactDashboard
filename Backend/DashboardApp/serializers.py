@@ -51,4 +51,10 @@ class CountryIntensitySerializer(serializers.ModelSerializer):
         model=EnergyData
         fields=['country', 'intensity']
 
+class TopicRegionSerializer(serializers.ModelSerializer):
+    # topic= serializers.CharField()
+    # region= serializers.CharField()
 
+    class Meta:
+        model =EnergyData
+        fields=['topic', 'region']

@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from rest_framework import viewsets, filters
-from .serializers import EnergyDataSerializer, IntensitySectorSerializer, LikelihoodYearSerializer, RelevanceSourceSerializer, YearTopicSerializer, CountryIntensitySerializer
+from .serializers import EnergyDataSerializer, IntensitySectorSerializer, LikelihoodYearSerializer, RelevanceSourceSerializer, YearTopicSerializer, CountryIntensitySerializer, TopicRegionSerializer
 from .models import EnergyData
 from django_filters.rest_framework import DjangoFilterBackend
-from .filters import IntensitySectorFilter, LikelihoodYearFilter, RelevanceFilter, YearTopicFilter, CountryIntensityFilter
+from .filters import IntensitySectorFilter, LikelihoodYearFilter, RelevanceFilter, YearTopicFilter, CountryIntensityFilter, TopicRegionFilter
 
 # Create your views here.
 
@@ -42,6 +42,13 @@ class CountryIntensityDataView(viewsets.ModelViewSet): #country paired with inte
     serializer_class= CountryIntensitySerializer
     filterset_class= CountryIntensityFilter
     ordering_fields=['country', 'intensity']
+
+class TopicRegionDataView(viewsets.ModelViewSet): #topic paired with Region, y and x axes
+    queryset= EnergyData.objects.exclude(topic="").exclude(region="")
+    serializer_class= TopicRegionSerializer
+    filterset_class= TopicRegionFilter
+    ordering_fields=['topic', 'region']
+
 
 
 
