@@ -109,9 +109,15 @@ class RelevanceSourceDataView(viewsets.ModelViewSet):
             else:
                 source_relevance_data[source] = {'total_relevance': relevance, 'relevance': relevance}
 
+        # Sort the data by relevance in descending order
+        sorted_data = sorted(source_relevance_data.items(), key=lambda item: item[1]['relevance'], reverse=True)
+
+        # Take the top 10 items
+        top_10_data = sorted_data[:10]
+
         response_data = []
 
-        for source, data in source_relevance_data.items():
+        for source, data in top_10_data:
             response_data.append({
                 'source': source,
                 'total_relevance': data['total_relevance'],
