@@ -66,6 +66,7 @@ class RegionIntensitySerializer(serializers.ModelSerializer):
 
 class EndYearRegionSerializer(serializers.ModelSerializer):
     end_year= serializers.IntegerField()
+    region= serializers.CharField()
 
     class Meta:
         model= EnergyData
@@ -80,3 +81,6 @@ class SourceIntensitySerializer(serializers.ModelSerializer):
         fields=['source', 'intensity']
 
 
+class PestleLikelihoodSerializer(serializers.Serializer):
+    pestle = serializers.CharField(allow_blank=True, allow_null=True)
+    total_likelihood = serializers.IntegerField() 

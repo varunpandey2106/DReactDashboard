@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import viewsets, filters
-from .serializers import IntensitySectorSerializer, LikelihoodYearSerializer, RelevanceSourceSerializer, YearRelevanceSerializer, CountryIntensitySerializer, TopicRegionSerializer, RegionIntensitySerializer,  EndYearRegionSerializer, SourceIntensitySerializer
+from .serializers import IntensitySectorSerializer, LikelihoodYearSerializer, RelevanceSourceSerializer, YearRelevanceSerializer, CountryIntensitySerializer, TopicRegionSerializer, RegionIntensitySerializer,  EndYearRegionSerializer, SourceIntensitySerializer,PestleLikelihoodSerializer
 from .models import EnergyData
 from django_filters.rest_framework import DjangoFilterBackend
 from .filters import IntensitySectorFilter, LikelihoodYearFilter, RelevanceFilter, YearTopicFilter, CountryIntensityFilter, TopicRegionFilter, RegionIntensityFilter, EndYearRegionFilter, SourceFilter
@@ -254,12 +254,40 @@ class RegionIntensityDataView(viewsets.ModelViewSet):
 
 
 
-class EndYearRegionDataView(viewsets.ModelViewSet): #end_year paired with region,x and y axes. heatmap?
-    queryset = EnergyData.objects.exclude(end_year="").exclude(region="")
+class EndYearRegionDataView(viewsets.ViewSet):
     serializer_class = EndYearRegionSerializer
-    filter_backends = (DjangoFilterBackend,)
-    filterset_class = EndYearRegionFilter
-    ordering_fields=["end_year", "region"]
+
+    def list(self, request, *args, **kwargs):
+        queryset = EnergyData.objects.exclude(end_year=None).exclude(region="")
+
+        end_year_region_data = {}
+
+        for item in queryset:
+            end_year_value = item.end_year
+            region_value = item.region
+
+            try:
+                end_year_value = int(end_year_value)
+            except (ValueError, TypeError):
+                end_year_value = 0
+
+            if end_year_value in end_year_region_data:
+                end_year_region_data[end_year_value]['total_end_year'] += 1
+            else:
+                end_year_region_data[end_year_value] = {'total_end_year': 1}
+
+        response_data = []
+
+        for end_year, data in end_year_region_data.items():
+            response_data.append({
+                'end_year': end_year,
+                'total_end_year': data['total_end_year'],
+                'region': region_value
+            })
+
+        serializer = EndYearRegionSerializer(response_data, many=True)
+        return Response(serializer.data)
+
 
     
 class SourceIntensityView(viewsets.ModelViewSet):
@@ -296,3 +324,35 @@ class SourceIntensityView(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
+class PestleLikelihoodDataView(viewsets.ViewSet):
+    serializer_class = PestleLikelihoodSerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = EnergyData.objects.exclude(pestle='').exclude(likelihood=None)
+
+        pestle_likelihood_data = {}
+
+        for item in queryset:
+            pestle_value = item.pestle
+            likelihood_value = item.likelihood
+
+            try:
+                likelihood_value = float(likelihood_value)
+            except (ValueError, TypeError):
+                likelihood_value = 0
+
+            if pestle_value in pestle_likelihood_data:
+                pestle_likelihood_data[pestle_value]['total_likelihood'] += likelihood_value
+            else:
+                pestle_likelihood_data[pestle_value] = {'total_likelihood': likelihood_value}
+
+        response_data = []
+
+        for pestle, data in pestle_likelihood_data.items():
+            response_data.append({
+                'pestle': pestle,
+                'total_likelihood': data['total_likelihood']
+            })
+
+        serializer = PestleLikelihoodSerializer(response_data, many=True)
+        return Response(serializer.data)

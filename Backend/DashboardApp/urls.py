@@ -7,14 +7,17 @@ router= DefaultRouter()
 
 #variables
 router.register(r'relevance', views.RelevanceSourceDataView, basename='relevancesourcedata')
-router.register(r'intensity', views.IntensitySectorDataView, basename='intensitysectordata')
+router.register(r'intensity', views.IntensitySectorDataView, basename='intensitysectordata') # 3 val review
 router.register(r'country', views.CountryIntensityDataView, basename='countryintensitydata')
 router.register(r'region', views.RegionIntensityDataView, basename='regionintensitydata' )
 router.register(r'source', views.SourceIntensityView, basename='sourceintensitydata')
-router.register(r'topic', views.TopicRegionDataView, basename='topicregiondata')
+router.register(r'topic', views.TopicRegionDataView, basename='topicregiondata') #review
 router.register(r'likelihood', views.LikelihoodYearDataView, basename='likelihoodyeardata')
 router.register(r'year', views.YearRelevanceDataView, basename='yearrelevance')
-router.register(r'end_year', views.EndYearRegionDataView, basename='endyearregion')
+router.register(r'end_year', views.EndYearRegionDataView, basename='endyearregion') #review
+router.register(r'pestle', views.PestleLikelihoodDataView, basename='pestlelikelihood')
+
+
 
 
 
