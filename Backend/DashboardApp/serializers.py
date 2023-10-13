@@ -1,13 +1,7 @@
 from rest_framework import serializers
 from .models import EnergyData
-from django.db.models import Q
+from django.db.models import Q, Sum
 
-class EnergyDataSerializer(serializers.ModelSerializer):
-    intensity= serializers.IntegerField(default=0)
-
-    class Meta:
-        model= EnergyData
-        fields= '__all__' # include all fields from the EnergyData model
 
 class IntensitySectorSerializer(serializers.ModelSerializer):
     intensity= serializers.IntegerField()
@@ -45,11 +39,16 @@ class YearTopicSerializer(serializers.ModelSerializer):
             return None  # Return None for empty or "Year not specified" years
         return obj.year
     
-class CountryIntensitySerializer(serializers.ModelSerializer):
-    intensity= serializers.IntegerField()
-    class Meta:
-        model=EnergyData
-        fields=['country', 'intensity']
+class CountryIntensitySerializer(serializers.Serializer):
+    country = serializers.CharField()
+    # intensity = serializers.IntegerField()
+    total_intensity = serializers.IntegerField()
+
+
+class CountryIntensitySerializer(serializers.Serializer):
+    country = serializers.CharField()
+    intensity = serializers.IntegerField()
+    total_intensity = serializers.IntegerField()  # Add a total_intensity field
 
 class TopicRegionSerializer(serializers.ModelSerializer):
     # topic= serializers.CharField()
@@ -66,9 +65,25 @@ class RegionIntensitySerilizer(serializers.ModelSerializer):
         model= EnergyData
         fields=['region', 'intensity']
 
-class CityLikelihoodSerializer(serializers.ModelSerializer):
-    likelihood= serializers.IntegerField()
+# class CityLikelihoodSerializer(serializers.ModelSerializer):
+#     likelihood= serializers.IntegerField()
+
+#     class Meta:
+#         model=EnergyData
+#         fields=['city', 'likelihood']
+
+class EndYearRegionSerializer(serializers.ModelSerializer):
+    end_year= serializers.IntegerField()
 
     class Meta:
-        model=EnergyData
-        fields=['city', 'likelihood']
+        model= EnergyData
+        fields=['end_year', 'region']
+
+class SourceIntensitySerializer(serializers.ModelSerializer):
+    intensity= serializers.IntegerField()
+
+    class Meta:
+        model= EnergyData
+        fields=['source', 'intensity']
+
+

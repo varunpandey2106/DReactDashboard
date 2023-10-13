@@ -56,3 +56,26 @@ class RegionIntensityFilter(django_filters.FilterSet):
             'region': ['exact', 'iexact', 'icontains'],
             'intensity': ['exact', 'lt', 'lte', 'gt', 'gte'],
         }
+
+# class CityLikelihoodFilter(django_filters.FilterSet):
+#     class Meta:
+#         model = EnergyData
+#         fields = {
+#             'city': ['exact', 'iexact', 'icontains'],
+#             'likelihood': ['exact', 'lt', 'lte', 'gt', 'gte'],
+#         }
+
+class EndYearRegionFilter(django_filters.FilterSet):
+    class Meta:
+        model = EnergyData
+        fields = {
+            'end_year': ['exact', 'lt', 'lte', 'gt', 'gte'],
+            'region': ['exact', 'iexact', 'icontains'],
+        }
+
+class SourceFilter(django_filters.FilterSet):
+    source = django_filters.CharFilter(lookup_expr='iexact')  # Case-insensitive exact match filter
+
+    class Meta:
+        model = EnergyData
+        fields = ['source']
