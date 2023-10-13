@@ -1,25 +1,55 @@
-import logo from './logo.svg';
+import React, { Component } from 'react';
+import axios from 'axios';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = {
+    relevanceData: [],
+    intensityData: [],
+    countryData: [],
+    regionData: [],
+    sourceData: [],
+    topicRegionData: [],
+    likelihoodData: [],
+    yearRelevanceData: [],
+    endYearRegionData: [],
+    pestleData: [],
+  };
+
+  componentDidMount() {
+    // Define an array of endpoint names
+    const endpoints = [
+      'relevance', 'intensity', 'country', 'region', 'source', 'topic',
+      'likelihood', 'year', 'end_year', 'pestle'
+    ];
+
+    // Make API requests for each endpoint
+    endpoints.forEach(endpoint => {
+      axios.get(`http://127.0.0.1:8000/dashboard/${endpoint}/`)
+        .then(response => {
+          this.setState({
+            [`${endpoint}Data`]: response.data,
+          });
+        })
+        .catch(error => {
+          console.error(`Error fetching data for ${endpoint}: ${error}`);
+        });
+    });
+  }
+
+  render() {
+    return (
+      <div className="App">
+        {/* Render your data here, e.g., mapping through state.relevanceData, state.intensityData, etc. */}
+        {this.state.relevanceData.map((data, id) => (
+          <div key={id}>
+            <h2>{data.relevance}</h2>
+            {/* Render other data fields */}
+          </div>
+        ))}
+      </div>
+    );
+  }
 }
 
 export default App;
