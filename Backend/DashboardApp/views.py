@@ -253,9 +253,15 @@ class RegionIntensityDataView(viewsets.ModelViewSet):
             else:
                 region_intensity[region] = {'total_intensity': intensity, 'intensity': intensity}
 
+        # Sort the data by intensity in descending order
+        sorted_data = sorted(region_intensity.items(), key=lambda item: item[1]['intensity'], reverse=True)
+
+        # Take the top 10 items
+        top_10_data = sorted_data[:10]
+
         response_data = []
 
-        for region, data in region_intensity.items():
+        for region, data in top_10_data:
             response_data.append({
                 'region': region,
                 'total_intensity': data['total_intensity'],
@@ -264,6 +270,7 @@ class RegionIntensityDataView(viewsets.ModelViewSet):
 
         serializer = RegionIntensitySerializer(response_data, many=True)
         return Response(serializer.data)
+
 
 
 
