@@ -181,9 +181,15 @@ class CountryIntensityDataView(viewsets.ModelViewSet):
             else:
                 country_intensity[country] = {'total_intensity': intensity, 'intensity': intensity}
 
+        # Sort the data by intensity in descending order
+        sorted_data = sorted(country_intensity.items(), key=lambda item: item[1]['intensity'], reverse=True)
+
+        # Take the top 10 items
+        top_10_data = sorted_data[:10]
+
         response_data = []
 
-        for country, data in country_intensity.items():
+        for country, data in top_10_data:
             response_data.append({
                 'country': country,
                 'total_intensity': data['total_intensity'],
@@ -192,6 +198,7 @@ class CountryIntensityDataView(viewsets.ModelViewSet):
 
         serializer = CountryIntensitySerializer(response_data, many=True)
         return Response(serializer.data)
+
 
 
 class TopicRegionDataView(viewsets.ModelViewSet):
