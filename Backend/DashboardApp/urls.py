@@ -14,8 +14,8 @@ router.register(r'source', views.SourceIntensityView, basename='sourceintensityd
 router.register(r'topic', views.TopicRegionDataView, basename='topicregiondata') #review
 router.register(r'likelihood', views.LikelihoodYearDataView, basename='likelihoodyeardata') #clear 
 router.register(r'year', views.YearRelevanceDataView, basename='yearrelevance') #clear 
-router.register(r'end_year', views.EndYearRegionDataView, basename='endyearregion') #review
-router.register(r'pestle', views.PestleLikelihoodDataView, basename='pestlelikelihood')
+router.register(r'end_year', views.EndYearRegionDataView, basename='endyearregion') #review/clear
+router.register(r'pestle', views.PestleLikelihoodDataView, basename='pestlelikelihood') #clear
 
 
 
