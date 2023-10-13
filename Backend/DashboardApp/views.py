@@ -12,15 +12,17 @@ from django.db.models import Sum
 # Create your views here.
 
 class IntensitySectorDataView(viewsets.ModelViewSet):
-    serializer_class = CountryIntensitySerializer  # You can keep the same serializer for simplicity
+    serializer_class = IntensitySectorSerializer
 
     def list(self, request, *args, **kwargs):
         queryset = EnergyData.objects.exclude(sector="").exclude(intensity="")
+
         sector_intensity = {}
 
         for item in queryset:
-            sector = item.sector  # Replace "country" with "sector"
+            sector = item.sector
             intensity = item.intensity
+
             try:
                 intensity = int(intensity)
             except (ValueError, TypeError):
@@ -28,23 +30,19 @@ class IntensitySectorDataView(viewsets.ModelViewSet):
 
             if sector in sector_intensity:
                 sector_intensity[sector]['total_intensity'] += intensity
-                sector_intensity[sector]['intensity'] += intensity
             else:
-                sector_intensity[sector] = {'total_intensity': intensity, 'intensity': intensity}
+                sector_intensity[sector] = {'total_intensity': intensity}
 
         response_data = []
 
         for sector, data in sector_intensity.items():
             response_data.append({
                 'sector': sector,
-                'total_intensity': data['total_intensity'],
-                'intensity': data['intensity']
+                'total_intensity': data['total_intensity']
             })
 
         serializer = IntensitySectorSerializer(response_data, many=True)
         return Response(serializer.data)
-
-
 
 # class LikelihoodYearDataViewSet(viewsets.ModelViewSet): # Likelihood paired with Year, y and x axes, empty entries ignored, Line graph
 #     queryset = EnergyData.objects.exclude(likelihood="").exclude(year="")

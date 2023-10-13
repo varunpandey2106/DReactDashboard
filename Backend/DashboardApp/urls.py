@@ -6,9 +6,9 @@ router= DefaultRouter()
 # router.register(r'energy-data', views.EnergyDataViewSet)
 
 #variables
-router.register(r'relevance', views.RelevanceSourceDataView, basename='relevancesourcedata')
-router.register(r'intensity', views.IntensitySectorDataView, basename='intensitysectordata') # 3 val review
-router.register(r'country', views.CountryIntensityDataView, basename='countryintensitydata')
+router.register(r'relevance', views.RelevanceSourceDataView, basename='relevancesourcedata')# clear
+router.register(r'intensity', views.IntensitySectorDataView, basename='intensitysectordata') # clear 
+router.register(r'country', views.CountryIntensityDataView, basename='countryintensitydata') 
 router.register(r'region', views.RegionIntensityDataView, basename='regionintensitydata' )
 router.register(r'source', views.SourceIntensityView, basename='sourceintensitydata')
 router.register(r'topic', views.TopicRegionDataView, basename='topicregiondata') #review

@@ -3,10 +3,13 @@ from .models import EnergyData
 from django.db.models import Q, Sum
 
 
-class IntensitySectorSerializer(serializers.Serializer):
+class IntensitySectorSerializer(serializers.ModelSerializer):
     sector = serializers.CharField()
-    intensity = serializers.IntegerField()
     total_intensity = serializers.IntegerField()
+
+    class Meta:
+        model = EnergyData
+        fields = ['sector', 'total_intensity']
 
 class LikelihoodYearSerializer(serializers.Serializer):
     year = serializers.CharField()
