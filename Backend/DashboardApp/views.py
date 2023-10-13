@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import viewsets, filters
-from .serializers import IntensitySectorSerializer, LikelihoodYearSerializer, RelevanceSourceSerializer, YearTopicSerializer, CountryIntensitySerializer, TopicRegionSerializer, RegionIntensitySerilizer,  EndYearRegionSerializer, SourceIntensitySerializer
+from .serializers import IntensitySectorSerializer, LikelihoodYearSerializer, RelevanceSourceSerializer, YearRelevanceSerializer, CountryIntensitySerializer, TopicRegionSerializer, RegionIntensitySerializer,  EndYearRegionSerializer, SourceIntensitySerializer
 from .models import EnergyData
 from django_filters.rest_framework import DjangoFilterBackend
 from .filters import IntensitySectorFilter, LikelihoodYearFilter, RelevanceFilter, YearTopicFilter, CountryIntensityFilter, TopicRegionFilter, RegionIntensityFilter, EndYearRegionFilter, SourceFilter
@@ -11,31 +11,148 @@ from django.db.models import Sum
 
 # Create your views here.
 
-class IntensityDataViewSet(viewsets.ModelViewSet): #intensity paired with sector, y and x axes, empty entries ignored , Bar graph
-    queryset=EnergyData.objects.exclude(intensity="").exclude(sector="")
-    serializer_class= IntensitySectorSerializer
-    filter_backends=(DjangoFilterBackend, filters.OrderingFilter)
-    filterset_class=IntensitySectorFilter
-    ordering_fields=['intensity', 'sector']
+class IntensitySectorDataView(viewsets.ModelViewSet):
+    serializer_class = CountryIntensitySerializer  # You can keep the same serializer for simplicity
 
-class LikelihoodYearDataViewSet(viewsets.ModelViewSet): # Likelihood paired with Year, y and x axes, empty entries ignored, Line graph
-    queryset = EnergyData.objects.exclude(likelihood="").exclude(year="")
+    def list(self, request, *args, **kwargs):
+        queryset = EnergyData.objects.exclude(sector="").exclude(intensity="")
+        sector_intensity = {}
+
+        for item in queryset:
+            sector = item.sector  # Replace "country" with "sector"
+            intensity = item.intensity
+            try:
+                intensity = int(intensity)
+            except (ValueError, TypeError):
+                intensity = 0
+
+            if sector in sector_intensity:
+                sector_intensity[sector]['total_intensity'] += intensity
+                sector_intensity[sector]['intensity'] += intensity
+            else:
+                sector_intensity[sector] = {'total_intensity': intensity, 'intensity': intensity}
+
+        response_data = []
+
+        for sector, data in sector_intensity.items():
+            response_data.append({
+                'sector': sector,
+                'total_intensity': data['total_intensity'],
+                'intensity': data['intensity']
+            })
+
+        serializer = IntensitySectorSerializer(response_data, many=True)
+        return Response(serializer.data)
+
+
+
+# class LikelihoodYearDataViewSet(viewsets.ModelViewSet): # Likelihood paired with Year, y and x axes, empty entries ignored, Line graph
+#     queryset = EnergyData.objects.exclude(likelihood="").exclude(year="")
+#     serializer_class = LikelihoodYearSerializer
+#     filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
+#     filterset_class = LikelihoodYearFilter
+#     ordering_fields = ['likelihood', 'year']
+
+class LikelihoodYearDataView(viewsets.ViewSet):
     serializer_class = LikelihoodYearSerializer
-    filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
-    filterset_class = LikelihoodYearFilter
-    ordering_fields = ['likelihood', 'year']
 
-class RelevanceSourceDataViewSet(viewsets.ModelViewSet): # relevance paired with Source, y and x axes, empty entries ignored, bar graph 
-    queryset= EnergyData.objects.exclude(relevance="").exclude(source="")
-    serializer_class=  RelevanceSourceSerializer
-    filterset_class= RelevanceFilter
-    ordering_fields=['relevance', 'source']
+    def list(self, request, *args, **kwargs):
+        queryset = EnergyData.objects.exclude(year="Year not specified").exclude(year__contains='-')
 
-class YearRelevanceDataViewSet(viewsets.ModelViewSet): #year paired with relevance, x and y axes, empty entries ignored, stacked area chart
-    queryset= EnergyData.objects.exclude(relevance="").exclude(year="")
-    serializer_class= YearTopicSerializer
-    filterset_class= YearTopicFilter
-    ordering_fields=['relevance', 'year']
+        year_likelihood_data = {}
+
+        for item in queryset:
+            year_value = item.year
+            likelihood_value = item.likelihood
+
+            try:
+                likelihood_value = int(likelihood_value)
+            except (ValueError, TypeError):
+                likelihood_value = 0
+
+            if year_value in year_likelihood_data:
+                year_likelihood_data[year_value]['total_likelihood'] += likelihood_value
+            else:
+                year_likelihood_data[year_value] = {'total_likelihood': likelihood_value}
+
+        response_data = []
+
+        for year, data in year_likelihood_data.items():
+            response_data.append({
+                'year': year,
+                'likelihood': data['total_likelihood']
+            })
+
+        serializer = LikelihoodYearSerializer(response_data, many=True)
+        return Response(serializer.data)
+
+
+
+class RelevanceSourceDataView(viewsets.ModelViewSet):
+    serializer_class = RelevanceSourceSerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = EnergyData.objects.exclude(source="").exclude(relevance="")
+        source_relevance_data = {}
+
+        for item in queryset:
+            source = item.source
+            relevance = item.relevance
+            try:
+                relevance = int(relevance)
+            except (ValueError, TypeError):
+                relevance = 0
+
+            if source in source_relevance_data:
+                source_relevance_data[source]['total_relevance'] += relevance
+                source_relevance_data[source]['relevance'] += relevance
+            else:
+                source_relevance_data[source] = {'total_relevance': relevance, 'relevance': relevance}
+
+        response_data = []
+
+        for source, data in source_relevance_data.items():
+            response_data.append({
+                'source': source,
+                'total_relevance': data['total_relevance'],
+                'relevance': data['relevance']
+            })
+
+        serializer = RelevanceSourceSerializer(response_data, many=True)
+        return Response(serializer.data)
+
+class YearRelevanceDataView(viewsets.ViewSet):
+    serializer_class = YearRelevanceSerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = EnergyData.objects.exclude(year="Year not specified").exclude(year__contains='-')
+
+        year_relevance_data = {}
+
+        for item in queryset:
+            year_value = item.year
+            relevance_value = item.relevance
+
+            try:
+                relevance_value = int(relevance_value)
+            except (ValueError, TypeError):
+                relevance_value = 0
+
+            if year_value in year_relevance_data:
+                year_relevance_data[year_value]['total_relevance'] += relevance_value
+            else:
+                year_relevance_data[year_value] = {'total_relevance': relevance_value}
+
+        response_data = []
+
+        for year, data in year_relevance_data.items():
+            response_data.append({
+                'year': year,
+                'total_relevance': data['total_relevance']
+            })
+
+        serializer = YearRelevanceSerializer(response_data, many=True)
+        return Response(serializer.data)
 
 class CountryIntensityDataView(viewsets.ModelViewSet):
     serializer_class = CountryIntensitySerializer
@@ -71,17 +188,70 @@ class CountryIntensityDataView(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-class TopicRegionDataView(viewsets.ModelViewSet): #topic paired with Region, y and x axes
-    queryset= EnergyData.objects.exclude(topic="").exclude(region="")
-    serializer_class= TopicRegionSerializer
-    filterset_class= TopicRegionFilter
-    ordering_fields=['topic', 'region']
+class TopicRegionDataView(viewsets.ModelViewSet):
+    serializer_class = TopicRegionSerializer
 
-class RegionIntensityDataView(viewsets.ModelViewSet): #region paired with intensity, x and y axes, choropelth
-    queryset= EnergyData.objects.exclude(region="").exclude(intensity="")
-    serializer_class=RegionIntensitySerilizer
-    filterset_class= RegionIntensityFilter
-    ordering_fields=['region', 'intensity']
+    def list(self, request, *args, **kwargs):
+        queryset = EnergyData.objects.exclude(topic="").exclude(region="")
+        topic_region_data = {}
+
+        for item in queryset:
+            topic_value = item.topic
+            region_value = item.region
+
+            combined_value = f"{topic_value} - {region_value}"
+
+            if combined_value in topic_region_data:
+                topic_region_data[combined_value]['total_count'] += 1
+            else:
+                topic_region_data[combined_value] = {'total_count': 1, 'topic': topic_value, 'region': region_value}
+
+        response_data = []
+
+        for combined_value, data in topic_region_data.items():
+            response_data.append({
+                'combined_value': combined_value,
+                'total_count': data['total_count'],
+                'topic': data['topic'],
+                'region': data['region']
+            })
+
+        serializer = TopicRegionSerializer(response_data, many=True)
+        return Response(serializer.data)
+    
+class RegionIntensityDataView(viewsets.ModelViewSet):
+    serializer_class = RegionIntensitySerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = EnergyData.objects.exclude(region="").exclude(intensity="")
+        region_intensity = {}
+
+        for item in queryset:
+            region = item.region
+            intensity = item.intensity
+            try:
+                intensity = int(intensity)
+            except (ValueError, TypeError):
+                intensity = 0
+
+            if region in region_intensity:
+                region_intensity[region]['total_intensity'] += intensity
+                region_intensity[region]['intensity'] += intensity
+            else:
+                region_intensity[region] = {'total_intensity': intensity, 'intensity': intensity}
+
+        response_data = []
+
+        for region, data in region_intensity.items():
+            response_data.append({
+                'region': region,
+                'total_intensity': data['total_intensity'],
+                'intensity': data['intensity']
+            })
+
+        serializer = RegionIntensitySerializer(response_data, many=True)
+        return Response(serializer.data)
+
 
 
 class EndYearRegionDataView(viewsets.ModelViewSet): #end_year paired with region,x and y axes. heatmap?
@@ -93,10 +263,36 @@ class EndYearRegionDataView(viewsets.ModelViewSet): #end_year paired with region
 
     
 class SourceIntensityView(viewsets.ModelViewSet):
-    queryset= EnergyData.objects.exclude(source="").exclude(intensity="")
-    serializer_class= SourceIntensitySerializer
-    filter_backends = (DjangoFilterBackend,)
-    filterset_class= SourceFilter
-    ordering_fields=['source','intensity']
+    serializer_class = SourceIntensitySerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = EnergyData.objects.exclude(source="").exclude(intensity="")
+        source_intensity = {}
+
+        for item in queryset:
+            source = item.source
+            intensity = item.intensity
+            try:
+                intensity = int(intensity)
+            except (ValueError, TypeError):
+                intensity = 0
+
+            if source in source_intensity:
+                source_intensity[source]['total_intensity'] += intensity
+                source_intensity[source]['intensity'] += intensity
+            else:
+                source_intensity[source] = {'total_intensity': intensity, 'intensity': intensity}
+
+        response_data = []
+
+        for source, data in source_intensity.items():
+            response_data.append({
+                'source': source,
+                'total_intensity': data['total_intensity'],
+                'intensity': data['intensity']
+            })
+
+        serializer = SourceIntensitySerializer(response_data, many=True)
+        return Response(serializer.data)
 
 

@@ -6,16 +6,16 @@ router= DefaultRouter()
 # router.register(r'energy-data', views.EnergyDataViewSet)
 
 #variables
-router.register(r'intensity', views.IntensityDataViewSet)
-router.register(r'likelihood', views.LikelihoodYearDataViewSet)
-router.register(r'relevance', views.RelevanceSourceDataViewSet)
-router.register(r'year', views.YearRelevanceDataViewSet)
+router.register(r'relevance', views.RelevanceSourceDataView, basename='relevancesourcedata')
+router.register(r'intensity', views.IntensitySectorDataView, basename='intensitysectordata')
 router.register(r'country', views.CountryIntensityDataView, basename='countryintensitydata')
-router.register(r'topic', views.TopicRegionDataView)
-router.register(r'region', views.RegionIntensityDataView )
-# router.register(r'region', views.CityLikelihoodDataView)
-router.register(r'end_year', views.EndYearRegionDataView)
-router.register(r'source', views.SourceIntensityView)
+router.register(r'region', views.RegionIntensityDataView, basename='regionintensitydata' )
+router.register(r'source', views.SourceIntensityView, basename='sourceintensitydata')
+router.register(r'topic', views.TopicRegionDataView, basename='topicregiondata')
+router.register(r'likelihood', views.LikelihoodYearDataView, basename='likelihoodyeardata')
+router.register(r'year', views.YearRelevanceDataView, basename='yearrelevance')
+router.register(r'end_year', views.EndYearRegionDataView, basename='endyearregion')
+
 
 
 
