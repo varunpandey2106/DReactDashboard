@@ -75,9 +75,15 @@ class LikelihoodYearDataView(viewsets.ViewSet):
             else:
                 year_likelihood_data[year_value] = {'total_likelihood': likelihood_value}
 
+        # Sort the data by total likelihood in descending order
+        sorted_data = sorted(year_likelihood_data.items(), key=lambda item: item[1]['total_likelihood'], reverse=True)
+
+        # Take the top 10 items
+        top_10_data = sorted_data[:10]
+
         response_data = []
 
-        for year, data in year_likelihood_data.items():
+        for year, data in top_10_data:
             response_data.append({
                 'year': year,
                 'likelihood': data['total_likelihood']
@@ -85,6 +91,7 @@ class LikelihoodYearDataView(viewsets.ViewSet):
 
         serializer = LikelihoodYearSerializer(response_data, many=True)
         return Response(serializer.data)
+
 
 
 
@@ -126,7 +133,6 @@ class RelevanceSourceDataView(viewsets.ModelViewSet):
 
         serializer = RelevanceSourceSerializer(response_data, many=True)
         return Response(serializer.data)
-
 class YearRelevanceDataView(viewsets.ViewSet):
     serializer_class = YearRelevanceSerializer
 
@@ -149,9 +155,15 @@ class YearRelevanceDataView(viewsets.ViewSet):
             else:
                 year_relevance_data[year_value] = {'total_relevance': relevance_value}
 
+        # Sort the data by total relevance in descending order
+        sorted_data = sorted(year_relevance_data.items(), key=lambda item: item[1]['total_relevance'], reverse=True)
+
+        # Take the top 10 items
+        top_10_data = sorted_data[:10]
+
         response_data = []
 
-        for year, data in year_relevance_data.items():
+        for year, data in top_10_data:
             response_data.append({
                 'year': year,
                 'total_relevance': data['total_relevance']
@@ -159,6 +171,7 @@ class YearRelevanceDataView(viewsets.ViewSet):
 
         serializer = YearRelevanceSerializer(response_data, many=True)
         return Response(serializer.data)
+
 
 class CountryIntensityDataView(viewsets.ModelViewSet):
     serializer_class = CountryIntensitySerializer
@@ -219,9 +232,15 @@ class TopicRegionDataView(viewsets.ModelViewSet):
             else:
                 topic_region_data[combined_value] = {'total_count': 1, 'topic': topic_value, 'region': region_value}
 
+        # Sort the data by total count in descending order
+        sorted_data = sorted(topic_region_data.items(), key=lambda item: item[1]['total_count'], reverse=True)
+
+        # Take the top 10 items
+        top_10_data = sorted_data[:10]
+
         response_data = []
 
-        for combined_value, data in topic_region_data.items():
+        for combined_value, data in top_10_data:
             response_data.append({
                 'combined_value': combined_value,
                 'total_count': data['total_count'],
@@ -231,6 +250,7 @@ class TopicRegionDataView(viewsets.ModelViewSet):
 
         serializer = TopicRegionSerializer(response_data, many=True)
         return Response(serializer.data)
+
     
 class RegionIntensityDataView(viewsets.ModelViewSet):
     serializer_class = RegionIntensitySerializer
@@ -331,9 +351,15 @@ class SourceIntensityView(viewsets.ModelViewSet):
             else:
                 source_intensity[source] = {'total_intensity': intensity, 'intensity': intensity}
 
+        # Sort the data by intensity in descending order
+        sorted_data = sorted(source_intensity.items(), key=lambda item: item[1]['intensity'], reverse=True)
+
+        # Take the top 10 items
+        top_10_data = sorted_data[:10]
+
         response_data = []
 
-        for source, data in source_intensity.items():
+        for source, data in top_10_data:
             response_data.append({
                 'source': source,
                 'total_intensity': data['total_intensity'],
