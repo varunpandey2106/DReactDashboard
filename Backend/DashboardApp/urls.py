@@ -8,7 +8,7 @@ router= DefaultRouter()
 #variables
 router.register(r'relevance', views.RelevanceSourceDataView, basename='relevancesourcedata')# clear
 router.register(r'intensity', views.IntensitySectorDataView, basename='intensitysectordata') # clear 
-router.register(r'country', views.CountryIntensityDataView, basename='countryintensitydata') 
+router.register(r'country', views.CountryIntensityDataView, basename='countryintensitydata')#clear
 router.register(r'region', views.RegionIntensityDataView, basename='regionintensitydata' )
 router.register(r'source', views.SourceIntensityView, basename='sourceintensitydata')
 router.register(r'topic', views.TopicRegionDataView, basename='topicregiondata') #review

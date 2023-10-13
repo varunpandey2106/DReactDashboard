@@ -203,12 +203,12 @@ class CountryIntensityDataView(viewsets.ModelViewSet):
         for country, data in top_10_data:
             response_data.append({
                 'country': country,
-                'total_intensity': data['total_intensity'],
-                'intensity': data['intensity']
+                'total_intensity': data['total_intensity']
             })
 
         serializer = CountryIntensitySerializer(response_data, many=True)
         return Response(serializer.data)
+
 
 
 
