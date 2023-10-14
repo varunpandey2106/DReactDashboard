@@ -1,10 +1,10 @@
-function Year(){
+function Topic(){
 
     return <div>
-        <Typography.Text>Year</Typography.Text>
+        <Typography.Text>Topic</Typography.Text>
     </div>
 
 
 }
 
-export default Year
+export default Topic
