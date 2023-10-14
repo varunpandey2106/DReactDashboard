@@ -10,7 +10,7 @@ function AppHeader() {
         alt="Dashboard Icon"
         style={{ width: 80, height: 40, marginRight: 16 }} // Adjust the width and height as needed
       />
-      <Typography.Title href="https://blackcoffer.com/" level={8} style={{ flex: 1, textAlign: "center" }}>
+      <Typography.Title l href="https://blackcoffer.com/" level={8} style={{ flex: 1, textAlign: "center" }}>
         BlackCoffer Dashboard
       </Typography.Title>
       <Space>

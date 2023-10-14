@@ -1,7 +1,9 @@
+import { Typography } from "antd";
+
 function Intensity(){
 
     return <div>
-        <Typography.Text>Intensity</Typography.Text>
+        <Typography.Title level={10}>Intensity</Typography.Title>
     </div>
 
 

@@ -1,9 +1,13 @@
 // import AppRoutes from "../AppRoutes";
 
+import AppRoutes from "../AppRoutes";
+
 function PageContent() {
   return (
     <div className="PageContent">
-      PageContent
+      <AppRoutes>
+        
+      </AppRoutes>
     </div>
   );
 }

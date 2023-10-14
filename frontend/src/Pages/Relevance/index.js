@@ -1,7 +1,9 @@
+import { Typography } from "antd";
+
 function Relevance(){
 
     return <div>
-        <Typography.Text>Relevance</Typography.Text>
+        <Typography.Title level={10}>Relevance</Typography.Title>
     </div>
 
 

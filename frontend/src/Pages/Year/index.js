@@ -1,7 +1,10 @@
+import { Typography } from "antd";
+
+
 function Year(){
 
     return <div>
-        <Typography.Text>Year</Typography.Text>
+        <Typography.Title level={10}>Year</Typography.Title>
     </div>
 
 

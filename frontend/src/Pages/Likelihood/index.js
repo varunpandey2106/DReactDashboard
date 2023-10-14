@@ -1,7 +1,9 @@
+import { Typography } from "antd";
+
 function Likelihood(){
 
     return <div>
-        <Typography.Text>Likelihood</Typography.Text>
+        <Typography.Title level={10}>Likelihood</Typography.Title>
     </div>
 
 

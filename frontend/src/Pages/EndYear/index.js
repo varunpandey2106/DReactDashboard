@@ -1,7 +1,9 @@
+import { Typography } from "antd";
+
 function EndYear(){
 
     return <div>
-        <Typography.Text>End year</Typography.Text>
+        <Typography.Title level={10}>End year</Typography.Title>
     </div>
 
 

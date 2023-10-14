@@ -1,7 +1,9 @@
+import { Typography } from "antd";
+
 function Pestle(){
 
     return <div>
-        <Typography.Text>Pestle</Typography.Text>
+        <Typography.Title level={10}>Pestle</Typography.Title>
     </div>
 
 

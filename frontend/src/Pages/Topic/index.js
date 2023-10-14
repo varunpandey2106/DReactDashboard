@@ -1,7 +1,9 @@
+import { Typography } from "antd";
+
 function Topic(){
 
     return <div>
-        <Typography.Text>Topic</Typography.Text>
+        <Typography.Title level={10}>Topic</Typography.Title>
     </div>
 
 

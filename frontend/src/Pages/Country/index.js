@@ -1,7 +1,9 @@
+import { Typography } from "antd";
+
 function Country(){
 
     return <div>
-        <Typography.Text>Country</Typography.Text>
+        <Typography.Title level={10}>Country</Typography.Title>
     </div>
 
 
