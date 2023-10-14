@@ -1,55 +1,24 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import './App.css';
+import { BrowserRouter as Router } from "react-router-dom";
+import { Space } from "antd";
+import "./App.css";
+import AppFooter from "./components/AppFooter/index.js";
+import AppHeader from "./components/AppHeader/index.js";
+import PageContent from "./components/PageContent/index.js";
+import SideMenu from "./components/SideMenu";
 
-class App extends Component {
-  state = {
-    relevanceData: [],
-    intensityData: [],
-    countryData: [],
-    regionData: [],
-    sourceData: [],
-    topicRegionData: [],
-    likelihoodData: [],
-    yearRelevanceData: [],
-    endYearRegionData: [],
-    pestleData: [],
-  };
-
-  componentDidMount() {
-    // Define an array of endpoint names
-    const endpoints = [
-      'relevance', 'intensity', 'country', 'region', 'source', 'topic',
-      'likelihood', 'year', 'end_year', 'pestle'
-    ];
-
-    // Make API requests for each endpoint
-    endpoints.forEach(endpoint => {
-      axios.get(`http://127.0.0.1:8000/dashboard/${endpoint}/`)
-        .then(response => {
-          this.setState({
-            [`${endpoint}Data`]: response.data,
-          });
-        })
-        .catch(error => {
-          console.error(`Error fetching data for ${endpoint}: ${error}`);
-        });
-    });
-  }
-
-  render() {
-    return (
+function App() {
+  return (
+    <Router>
       <div className="App">
-        {/* Render your data here, e.g., mapping through state.relevanceData, state.intensityData, etc. */}
-        {this.state.relevanceData.map((data, id) => (
-          <div key={id}>
-            <h2>{data.relevance}</h2>
-            {/* Render other data fields */}
-          </div>
-        ))}
+        <AppHeader />
+        <div className="SideMenuAndPageContent">
+          <SideMenu />
+          <PageContent></PageContent>
+        </div>
+        <AppFooter />
       </div>
-    );
-  }
+    </Router>
+  );
 }
 
 export default App;
