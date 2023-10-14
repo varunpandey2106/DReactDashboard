@@ -1,7 +1,7 @@
 function Source(){
 
     return <div>
-        <Typography.Text>Source/Typography.Text>
+        <Typography.Text>Source</Typography.Text>
     </div>
 
 
