@@ -1,12 +1,32 @@
-import { Typography } from "antd";
+// EndYearComponent.js
+import React, { useState, useEffect } from 'react';
+import { getEndYear } from '../../API'; // Import the API function for "end year"
+import D3BarChart from '../D3Visualizations/endyearviz';
 
-function EndYear(){
-
-    return <div>
-        <Typography.Title level={10}>End year</Typography.Title>
-    </div>
-
-
+const EndYearComponent = () => {
+  const [endYearData, setEndYearData] = useState(null);
+  const fetchData = async () => {
+    try {
+      const result = await getEndYear();
+      setEndYearData(result);
+    } catch (error) {
+      // Handle errors
+    }
 }
+  useEffect(() => {
+   
+    
 
-export default EndYear
+    fetchData();
+  }, []);
+
+  return (
+    <div>
+      <h2>End Year Data</h2>
+      {endYearData && <D3BarChart data={endYearData} />}
+    </div>
+  );
+};
+
+export default EndYearComponent;
+

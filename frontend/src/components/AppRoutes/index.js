@@ -10,7 +10,8 @@ import Likelihood from "../../Pages/Likelihood";
 import Year from "../../Pages/Year";
 import Pestle from "../../Pages/Pestle";
 import EndYear from "../../Pages/EndYear";
-import Filters from "../../Pages/Filters";
+import Filters from "../../Pages/Dashboard";
+import Dashboard from "../../Pages/Dashboard";
 
 function AppRoutes() {
   return (
@@ -25,7 +26,7 @@ function AppRoutes() {
       <Route path="/year" element={<Year />} />
       <Route path="/pestle" element={<Pestle />} />
       <Route path="/end_year" element={<EndYear />} />
-      <Route path="/" element={<Filters/>} />
+      <Route path="/" element={<Dashboard/>} />
 
       {/* Add routes for other endpoints as needed */}
     </Routes>
