@@ -1,6 +1,6 @@
 import { Typography } from "antd";
-import React from 'react';
-import HorizontalBarChart from '../D3Visualizations/pestleviz'; // Import the HorizontalBarChart component
+import React from 'react';import HorizontalBarChart from '../D3Visualizations/pestleviz'; // Import the HorizontalBarChart component
+
 
 const data = [
   {
