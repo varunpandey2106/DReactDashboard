@@ -1,10 +1,10 @@
 import React, { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
 
-const D3LikelihoodLineChart = ({ data }) => {
+const EndYearAreaChart = ({ data }) => {
   const svgRef = useRef();
-  const margin = { top: 20, right: 30, bottom: 40, left: 40 };
-  const width = 600 - margin.left - margin.right;
+  const margin = { top: 20, right: 30, bottom: 30, left: 40 };
+  const width = 800 - margin.left - margin.right;
   const height = 400 - margin.top - margin.bottom;
 
   useEffect(() => {
@@ -12,46 +12,44 @@ const D3LikelihoodLineChart = ({ data }) => {
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom);
 
-    // Parse likelihood values as numbers
-    data.forEach(d => {
-      d.total_likelihood = +d.total_likelihood;
-    });
+    // Extract years from the data
+    const years = data.map(d => d.end_year);
 
-    const xScale = d3.scaleBand()
-      .domain(data.map(d => d.pestle))
-      .range([margin.left, width + margin.left])
-      .padding(0.1);
+    // Extract the maximum value for scaling
+    const maxYear = d3.max(years);
+
+    // Create the x and y scales
+    const xScale = d3.scaleLinear()
+      .domain([0, maxYear])
+      .range([margin.left, width]);
 
     const yScale = d3.scaleLinear()
-      .domain([0, d3.max(data, d => d.total_likelihood)])
-      .nice()
-      .range([height, 0]);
+      .domain([0, 1]) // Y-axis scaling for area chart
+      .range([height, margin.top]);
 
-    const xAxis = d3.axisBottom(xScale);
-    const yAxis = d3.axisLeft(yScale);
+    const areaGenerator = d3.area()
+      .x(d => xScale(d.end_year))
+      .y0(height)
+      .y1(d => yScale(0.5)) // Middle point for Y-axis for the area chart
+
+    svg.append('path')
+      .datum(data)
+      .attr('fill', 'steelblue')
+      .attr('d', areaGenerator);
 
     svg.append('g')
-      .attr('transform', `translate(0, ${height})`)
-      .call(xAxis);
+      .attr('transform', `translate(0,${height})`)
+      .call(d3.axisBottom(xScale));
 
-    svg.append('g')
-      .attr('transform', `translate(${margin.left}, 0)`)
-      .call(yAxis);
-
-    const bars = svg.selectAll('rect')
-      .data(data)
-      .enter()
-      .append('rect')
-      .attr('x', d => xScale(d.pestle))
-      .attr('y', d => yScale(d.total_likelihood))
-      .attr('width', xScale.bandwidth())
-      .attr('height', d => height - yScale(d.total_likelihood))
-      .attr('fill', 'steelblue');
+    svg.append('text')
+      .attr('x', width / 2 + margin.left)
+      .attr('y', height + margin.top + 20)
+      .text('End Year')
+      .attr('text-anchor', 'middle');
 
   }, [data, height, width]);
 
   return <svg ref={svgRef}></svg>;
 };
 
-export default D3LikelihoodLineChart;
-
+export default EndYearAreaChart;
