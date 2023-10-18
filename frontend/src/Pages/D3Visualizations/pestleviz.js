@@ -3,8 +3,8 @@ import * as d3 from 'd3';
 
 const HorizontalBarChart = ({ data }) => {
   const svgRef = useRef();
-  const margin = { top: 20, right: 60, bottom: 60, left: 100 }; // Adjusted margins
-  const width = 800 - margin.left - margin.right; // Adjusted width
+  const margin = { top: 20, right: 60, bottom: 60, left: 100 };
+  const width = 800 - margin.left - margin.right;
   const height = 400 - margin.top - margin.bottom;
 
   const colors = ['steelblue', 'orange', 'green', 'red', 'purple', 'blue', 'yellow', 'brown', 'teal'];
@@ -27,6 +27,13 @@ const HorizontalBarChart = ({ data }) => {
       d.originalColor = i % colors.length;
     });
 
+    const valueLabel = svg.append('text')
+      .attr('class', 'value-label')
+      .style('text-anchor', 'start')
+      .style('alignment-baseline', 'middle')
+      .style('fill', 'black')
+      .style('display', 'none');
+
     svg.selectAll('rect')
       .data(data)
       .enter()
@@ -38,9 +45,19 @@ const HorizontalBarChart = ({ data }) => {
       .attr('fill', d => colors[d.originalColor])
       .on('mouseover', function (event, d) {
         d3.select(this).attr('fill', 'lightsteelblue');
+
+        // Display the value on hover
+        valueLabel
+          .style('display', 'block')
+          .attr('x', xScale(d.total_likelihood) + margin.left + 5)
+          .attr('y', yScale(d.pestle) + yScale.bandwidth() / 2)
+          .text(d.total_likelihood);
       })
       .on('mouseout', function (event, d) {
         d3.select(this).attr('fill', colors[d.originalColor]);
+
+        // Hide the value on mouseout
+        valueLabel.style('display', 'none');
       });
 
     svg.append('g')
@@ -52,7 +69,7 @@ const HorizontalBarChart = ({ data }) => {
       .call(d3.axisLeft(yScale));
 
     svg.append('text')
-      .attr('x', width / 2 + margin.left) // Center the title
+      .attr('x', width / 2 + margin.left)
       .attr('y', margin.top / 2)
       .text('Pestle')
       .attr('text-anchor', 'middle')

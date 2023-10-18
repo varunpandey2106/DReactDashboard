@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 
 export function createHeatmap(data, svgRef) {
-  const margin = { top: 20, right: 30, bottom: 40, left: 40 };
+  const margin = { top: 20, right: 30, bottom: 80, left: 60 };
   const width = 800 - margin.left - margin.right;
   const height = 400 - margin.top - margin.bottom;
 
@@ -9,22 +9,18 @@ export function createHeatmap(data, svgRef) {
     .attr('width', width + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom);
 
-  // Define color scale based on intensity values
   const colorScale = d3.scaleSequential(d3.interpolateYlGnBu)
     .domain([0, d3.max(data, d => d.intensity)]);
 
-  // Create an x-axis scale for regions
   const xScale = d3.scaleBand()
     .domain(data.map(d => d.region))
     .range([margin.left, width])
     .padding(0.1);
 
-  // Create a y-axis scale for intensity values
   const yScale = d3.scaleLinear()
     .domain([0, d3.max(data, d => d.intensity)])
     .range([height, margin.top]);
 
-  // Create a grid of rectangles, each representing intensity
   svg.selectAll('rect')
     .data(data)
     .enter()
@@ -33,9 +29,27 @@ export function createHeatmap(data, svgRef) {
     .attr('y', d => yScale(d.intensity))
     .attr('width', xScale.bandwidth())
     .attr('height', d => height - yScale(d.intensity))
-    .attr('fill', d => colorScale(d.intensity));
+    .attr('fill', d => colorScale(d.intensity))
+    .on('mouseover', function (event, d) {
+      // Change the fill color on hover
+      d3.select(this).attr('fill', 'lightsteelblue');
 
-  // Add x-axis
+      // Display a tooltip on hover
+      const tooltip = svg.append('text')
+        .attr('class', 'tooltip')
+        .attr('x', xScale(d.region) + xScale.bandwidth() / 2)
+        .attr('y', yScale(d.intensity) - 10)
+        .text(`${d.region}: ${d.intensity}`)
+        .style('text-anchor', 'middle');
+    })
+    .on('mouseout', function () {
+      // Restore the original fill color on mouseout
+      d3.select(this).attr('fill', d => colorScale(d.intensity));
+
+      // Remove the tooltip on mouseout
+      svg.select('.tooltip').remove();
+    });
+
   svg.append('g')
     .attr('transform', `translate(0, ${height})`)
     .call(d3.axisBottom(xScale))
@@ -45,7 +59,6 @@ export function createHeatmap(data, svgRef) {
     .attr('dy', '.15em')
     .attr('transform', 'rotate(-45)');
 
-  // Add y-axis
   svg.append('g')
     .attr('transform', `translate(${margin.left}, 0)`)
     .call(d3.axisLeft(yScale));

@@ -27,6 +27,13 @@ const HorizontalBarChart = ({ data }) => {
       d.originalColor = i % colors.length;
     });
 
+    const valueLabel = svg.append('text')
+      .attr('class', 'value-label')
+      .style('text-anchor', 'start')
+      .style('alignment-baseline', 'middle')
+      .style('fill', 'black')
+      .style('display', 'none');
+
     svg.selectAll('rect')
       .data(data)
       .enter()
@@ -38,9 +45,15 @@ const HorizontalBarChart = ({ data }) => {
       .attr('fill', d => colors[d.originalColor])
       .on('mouseover', function (event, d) {
         d3.select(this).attr('fill', 'lightsteelblue');
+        valueLabel
+          .style('display', 'block')
+          .attr('x', xScale(d.intensity) + margin.left + 10)
+          .attr('y', yScale(d.source) + yScale.bandwidth() / 2)
+          .text(d.intensity);
       })
       .on('mouseout', function (event, d) {
         d3.select(this).attr('fill', colors[d.originalColor]);
+        valueLabel.style('display', 'none');
       });
 
     svg.append('g')
@@ -56,7 +69,7 @@ const HorizontalBarChart = ({ data }) => {
       .attr('y', margin.top / 2)
       .text('Source')
       .attr('text-anchor', 'middle')
-      .attr('transform', 'rotate(-90)');
+      .attr('transform', 'rotate(-90');
 
   }, [data, height, width]);
 
