@@ -3,8 +3,8 @@ import * as d3 from 'd3';
 
 const D3LikelihoodLineChart = ({ data }) => {
   const svgRef = useRef();
-  const margin = { top: 20, right: 30, bottom: 40, left: 40 };
-  const width = 600 - margin.left - margin.right;
+  const margin = { top: 40, right: 40, bottom: 60, left: 60 }; // Adjusted margins
+  const width = 800 - margin.left - margin.right;
   const height = 400 - margin.top - margin.bottom;
 
   useEffect(() => {
@@ -12,7 +12,6 @@ const D3LikelihoodLineChart = ({ data }) => {
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom);
 
-    // Parse likelihood values as numbers
     data.forEach(d => {
       d.likelihood = +d.likelihood;
     });
@@ -38,15 +37,17 @@ const D3LikelihoodLineChart = ({ data }) => {
       .attr('transform', `translate(${margin.left}, 0)`)
       .call(yAxis);
 
-    const bars = svg.selectAll('rect')
-      .data(data)
-      .enter()
-      .append('rect')
-      .attr('x', d => xScale(d.year))
-      .attr('y', d => yScale(d.likelihood))
-      .attr('width', xScale.bandwidth())
-      .attr('height', d => height - yScale(d.likelihood))
-      .attr('fill', 'steelblue');
+    const line = d3.line()
+      .x(d => xScale(d.year) + xScale.bandwidth() / 2)
+      .y(d => yScale(d.likelihood))
+      .curve(d3.curveMonotoneX);
+
+    svg.append('path')
+      .datum(data)
+      .attr('fill', 'none')
+      .attr('stroke', 'steelblue')
+      .attr('stroke-width', 2)
+      .attr('d', line);
 
   }, [data, height, width]);
 
@@ -54,3 +55,4 @@ const D3LikelihoodLineChart = ({ data }) => {
 };
 
 export default D3LikelihoodLineChart;
+

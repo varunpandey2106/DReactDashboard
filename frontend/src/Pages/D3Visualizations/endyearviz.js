@@ -14,16 +14,16 @@ const D3LikelihoodLineChart = ({ data }) => {
 
     // Parse likelihood values as numbers
     data.forEach(d => {
-      d.likelihood = +d.likelihood;
+      d.total_likelihood = +d.total_likelihood;
     });
 
     const xScale = d3.scaleBand()
-      .domain(data.map(d => d.year))
+      .domain(data.map(d => d.pestle))
       .range([margin.left, width + margin.left])
       .padding(0.1);
 
     const yScale = d3.scaleLinear()
-      .domain([0, d3.max(data, d => d.likelihood)])
+      .domain([0, d3.max(data, d => d.total_likelihood)])
       .nice()
       .range([height, 0]);
 
@@ -42,10 +42,10 @@ const D3LikelihoodLineChart = ({ data }) => {
       .data(data)
       .enter()
       .append('rect')
-      .attr('x', d => xScale(d.year))
-      .attr('y', d => yScale(d.likelihood))
+      .attr('x', d => xScale(d.pestle))
+      .attr('y', d => yScale(d.total_likelihood))
       .attr('width', xScale.bandwidth())
-      .attr('height', d => height - yScale(d.likelihood))
+      .attr('height', d => height - yScale(d.total_likelihood))
       .attr('fill', 'steelblue');
 
   }, [data, height, width]);
