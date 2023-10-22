@@ -57,13 +57,7 @@ cd DReactDashboard
 
 2. Install dependencies
 
-<code style="color: orange;">cd Backend</code>
-<code style="color: orange;">virtualenv Backend</code>
-<code style="color: orange;">pip install -r requirements.txt
-</code>
-
-
-```
+```python
 cd Backend
 virtualenv Backend
 pip install -r requirements.txt
@@ -77,11 +71,11 @@ npm install
 **3. Start the project:**
    
 ```python
-      python manage.py runserver
+python manage.py runserver
 ```
 
 ```javascript
-    npm start
+npm start
 ```
 
 -**access them at:**
