@@ -62,7 +62,7 @@ cd Backend
 virtualenv Backend
 pip install -r requirements.txt
 ```
-```javascript
+```python
 cd frontend
 npm install
 ```
