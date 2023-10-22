@@ -57,7 +57,13 @@ cd DReactDashboard
 
 2. Install dependencies
 
-```python
+<code style="color: orange;">cd Backend</code>
+<code style="color: orange;">virtualenv Backend</code>
+<code style="color: orange;">pip install -r requirements.txt
+</code>
+
+
+```
 cd Backend
 virtualenv Backend
 pip install -r requirements.txt
