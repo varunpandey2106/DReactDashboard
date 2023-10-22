@@ -1,6 +1,5 @@
 # DReact Dashboard
 
-**Brief project description**
 DReact Dashboard is a dashboard web application that visualizes and analyzes data.
 
 
@@ -50,24 +49,23 @@ DReact Dashboard is a dashboard web application that visualizes and analyzes dat
 
 **1. Clone the repository:**
 
-   ```bash
-   git clone https://github.com/varunpandey2106/DReactDashboard.git
-   cd DReactDashboard
-   ```
+```bash
+git clone https://github.com/varunpandey2106/DReactDashboard.git
+cd DReactDashboard
+
+```
 
 2. Install dependencies
 
 ```python
-     cd Backend
-     virtualenv Backend
-     pip install -r requirements.txt
+cd Backend
+virtualenv Backend
+pip install -r requirements.txt
 ```
-
 ```javascript
-     cd frontend
-     npm install
+cd frontend
+npm install
 ```
-
 
 **3. Start the project:**
    
