@@ -21,7 +21,7 @@ DReact Dashboard is a dashboard web application that visualizes and analyzes dat
 
 ### Technologies Used
 
-- **[Node.js](https://nodejs.org/)**
+- **[ReactJS](https://react.dev/)**
 - **[D3js](https://d3js.org/)**
 - **[Python](https://www.python.org/)**
 - **[Django](https://www.djangoproject.com/)**
