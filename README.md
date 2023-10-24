@@ -30,6 +30,9 @@ DReact Dashboard is a dashboard web application that visualizes and analyzes dat
 - **[Swagger](https://swagger.io/)**
 - **[PostgreSQL](https://www.postgresql.org/)**
 - **[Railway](https://railway.app/)**
+- **[nginx](https://docs.nginx.com/nginx/admin-guide/web-server/)**
+- **[gunicorn](https://gunicorn.org/)*
+- **[Docker](https://www.docker.com/)**
 
 ## JSON Dataset
 
@@ -86,6 +89,10 @@ npm start
 ![Screenshot 2023-10-22 232234](https://github.com/varunpandey2106/DReactDashboard/assets/77747699/5eb3acf4-7e03-450b-88c3-eb4e919e6e5f)
 ![Screenshot 2023-10-22 232326](https://github.com/varunpandey2106/DReactDashboard/assets/77747699/230b3cd2-dc00-4a20-a52a-9bb4c1f324a1)
 ![Screenshot 2023-10-22 232420](https://github.com/varunpandey2106/DReactDashboard/assets/77747699/afffa767-be70-42ba-8ebe-c277a08c9be1)
+
+## Frontend:
+-** **
+
 
 ## Database:
 -**Create a postgres instance on railway and configure project settings:**
