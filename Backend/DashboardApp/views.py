@@ -400,3 +400,7 @@ class PestleLikelihoodDataView(viewsets.ViewSet):
 
         serializer = PestleLikelihoodSerializer(response_data, many=True)
         return Response(serializer.data)
+
+
+class Varun(viewsets.ViewSet):
+    pass
