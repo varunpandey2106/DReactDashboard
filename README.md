@@ -15,6 +15,7 @@ DReact Dashboard is a dashboard web application that visualizes and analyzes dat
   - [Getting Started](#getting-started)
     - [Installation](#installation)
   - [API Documentation](#api-documentation)
+  - [DReactDashboard](#frontend)
   - [Database](#database)
   - [License](#license)
 
