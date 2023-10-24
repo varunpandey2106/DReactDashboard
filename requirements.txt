@@ -19,3 +19,4 @@ swagger-spec-validator==3.0.3
 typing-extensions==4.8.0 
 uritemplate==4.1.1
 gunicorn==21.2.0
+django-filter
